@@ -21,7 +21,7 @@ export function ApplicationsPage() {
     <div>
       <h1 className="text-2xl font-bold text-slate-900">Applied Jobs</h1>
       <p className="mt-1 text-slate-500">
-        Track every application you have submitted through TalentHub.
+        Track every application you have submitted through L&G.
       </p>
 
       <div className="mt-6">

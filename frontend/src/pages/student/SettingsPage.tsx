@@ -26,7 +26,7 @@ const preferences: Preference[] = [
   {
     id: "marketing",
     label: "Product news",
-    description: "Occasional updates about new TalentHub features.",
+    description: "Occasional updates about new L&G features.",
   },
 ];
 

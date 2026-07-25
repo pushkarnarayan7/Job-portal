@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Briefcase } from "lucide-react";
 import type { ReactNode } from "react";
 
 interface AuthLayoutProps {
@@ -20,10 +19,13 @@ export function AuthLayout({ title, subtitle, children }: AuthLayoutProps) {
       >
         <div className="mb-8 text-center">
           <Link to="/" className="inline-flex items-center gap-2">
-            <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary-600">
-              <Briefcase className="h-5 w-5 text-white" />
+            <img src="/logo.png" alt="L&G logo" className="h-12 w-12 object-contain" />
+            <span className="flex flex-col items-start leading-tight">
+              <span className="text-xl font-bold text-slate-900">L&G</span>
+              <span className="text-[10px] font-semibold uppercase tracking-widest text-slate-500">
+                Launch & Grow
+              </span>
             </span>
-            <span className="text-xl font-bold text-slate-900">TalentHub</span>
           </Link>
           <h1 className="mt-6 text-2xl font-bold text-slate-900">{title}</h1>
           <p className="mt-1.5 text-sm text-slate-500">{subtitle}</p>

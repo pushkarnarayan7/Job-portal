@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { NavLink, Outlet, Link, useNavigate } from "react-router-dom";
 import type { LucideIcon } from "lucide-react";
-import { Briefcase, LogOut, Menu, X } from "lucide-react";
+import { LogOut, Menu, X } from "lucide-react";
 import toast from "react-hot-toast";
 import { useAuth } from "@/context/AuthContext";
 import { cn, getInitials } from "@/lib/utils";
@@ -33,10 +33,13 @@ export function DashboardLayout({ items, title }: DashboardLayoutProps) {
     <div className="flex h-full flex-col">
       <div className="flex h-16 items-center gap-2 border-b border-slate-200 px-5">
         <Link to="/" className="flex items-center gap-2">
-          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary-600">
-            <Briefcase className="h-4 w-4 text-white" />
+          <img src="/logo.png" alt="L&G logo" className="h-9 w-9 object-contain" />
+          <span className="flex flex-col leading-tight">
+            <span className="font-bold text-slate-900">L&G</span>
+            <span className="text-[9px] font-semibold uppercase tracking-widest text-slate-500">
+              Launch & Grow
+            </span>
           </span>
-          <span className="font-bold text-slate-900">TalentHub</span>
         </Link>
       </div>
 

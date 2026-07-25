@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import { Briefcase, Menu, X, LayoutDashboard, LogOut } from "lucide-react";
+import { Menu, X, LayoutDashboard, LogOut } from "lucide-react";
 import toast from "react-hot-toast";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/Button";
@@ -28,10 +28,13 @@ export function Navbar() {
     <header className="sticky top-0 z-40 border-b border-slate-200 bg-white/80 backdrop-blur">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link to="/" className="flex items-center gap-2">
-          <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary-600">
-            <Briefcase className="h-5 w-5 text-white" />
+          <img src="/logo.png" alt="L&G logo" className="h-10 w-10 object-contain" />
+          <span className="flex flex-col leading-tight">
+            <span className="text-lg font-bold text-slate-900">L&G</span>
+            <span className="text-[10px] font-semibold uppercase tracking-widest text-slate-500">
+              Launch & Grow
+            </span>
           </span>
-          <span className="text-lg font-bold text-slate-900">TalentHub</span>
         </Link>
 
         <nav className="hidden items-center gap-1 md:flex">

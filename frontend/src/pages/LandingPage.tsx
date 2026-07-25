@@ -67,8 +67,8 @@ export function LandingPage() {
                 <span className="text-primary-600">builds your future</span>
               </h1>
               <p className="mx-auto mt-5 max-w-xl text-lg text-slate-600">
-                TalentHub connects ambitious students and professionals with
-                companies that are shaping tomorrow. Search, apply, and get hired.
+                L&G connects ambitious students and professionals with
+                companies that are shaping tomorrow. Launch your career, grow your future.
               </p>
             </motion.div>
 
@@ -275,7 +275,7 @@ export function LandingPage() {
               Loved by job seekers and recruiters
             </h2>
             <p className="mt-1 text-slate-500">
-              Here is what our community says about TalentHub.
+              Here is what our community says about L&G.
             </p>
           </motion.div>
 
@@ -295,7 +295,7 @@ export function LandingPage() {
               },
               {
                 quote:
-                  "Clean, fast, and no noise. TalentHub feels like a product built by people who understand hiring.",
+                  "Clean, fast, and no noise. L&G feels like a product built by people who understand hiring.",
                 name: "Sara Iyer",
                 role: "Product Designer",
               },
@@ -331,8 +331,8 @@ export function LandingPage() {
               Ready to take the next step in your career?
             </h2>
             <p className="mx-auto mt-3 max-w-xl text-slate-300">
-              Join thousands of professionals who found their dream jobs through
-              TalentHub. It takes less than a minute to get started.
+              Join thousands of professionals who launched and grew their careers
+              with L&G. It takes less than a minute to get started.
             </p>
             <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
               <Link to="/register">
