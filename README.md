@@ -278,6 +278,3 @@ Suggested filenames:
 
 ---
 
-## License
-
-ISC
