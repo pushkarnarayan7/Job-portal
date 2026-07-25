@@ -100,3 +100,4 @@ frontend/src/
   services/     # Axios HTTP layer + auth/jobs services
   types/        # Shared TypeScript contracts
 ```
+"# Job-portal" 
