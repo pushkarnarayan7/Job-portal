@@ -58,10 +58,6 @@ export function LandingPage() {
         <div className="relative mx-auto max-w-7xl px-4 pb-20 pt-16 sm:px-6 sm:pt-24 lg:px-8">
           <div className="mx-auto max-w-3xl text-center">
             <motion.div {...fadeUp}>
-              <span className="inline-flex items-center gap-2 rounded-full border border-primary-200 bg-primary-50 px-4 py-1.5 text-sm font-medium text-primary-700">
-                <span className="h-2 w-2 rounded-full bg-emerald-500" />
-                Over 10,000 opportunities waiting
-              </span>
               <h1 className="mt-6 text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl lg:text-6xl">
                 Find the job that{" "}
                 <span className="text-primary-600">builds your future</span>
