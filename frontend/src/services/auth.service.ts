@@ -10,12 +10,19 @@ import type {
 interface LoginResult {
   token: string;
   role: UserRole;
+  user?: {
+    id: string;
+    name: string;
+    email: string;
+    role: UserRole;
+  };
 }
 
 interface RegisterResult {
   id: string;
   name: string;
   email: string;
+  role: UserRole;
 }
 
 export const authService = {

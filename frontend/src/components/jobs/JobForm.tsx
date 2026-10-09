@@ -74,7 +74,7 @@ export function JobForm({ defaultValues, submitLabel, onSubmit }: JobFormProps) 
         label="Eligibility & requirements"
         rows={5}
         placeholder="e.g. 3+ years React experience, strong TypeScript skills, familiarity with REST APIs"
-        hint="Separate requirements with commas — they are shown as a checklist to candidates."
+        hint="Separate requirements with commas - they are shown as a checklist to candidates."
         error={errors.eligibility?.message}
         {...register("eligibility")}
       />

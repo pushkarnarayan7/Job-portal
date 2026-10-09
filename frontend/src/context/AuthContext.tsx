@@ -37,7 +37,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       .me()
       .then((me) => {
         const profile = profileStore.get();
-        setUser({ ...me, name: profile.name, email: profile.email });
+        setUser({
+          ...me,
+          name: me.name || profile.name,
+          email: me.email || profile.email,
+        });
       })
       .catch(() => {
         localStorage.removeItem(TOKEN_KEY);
@@ -46,23 +50,26 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const login = useCallback(async (payload: LoginPayload): Promise<AuthUser> => {
-    const { token, role } = await authService.login(payload);
-    localStorage.setItem(TOKEN_KEY, token);
-    profileStore.save({ email: payload.email });
+    const res = await authService.login(payload);
+    localStorage.setItem(TOKEN_KEY, res.token);
+    profileStore.save({
+      email: res.user?.email ?? payload.email,
+      ...(res.user?.name ? { name: res.user.name } : {}),
+    });
     const profile = profileStore.get();
     const nextUser: AuthUser = {
-      id: "user_001",
-      role,
-      email: payload.email,
-      name: profile.name || payload.email.split("@")[0],
+      id: res.user?.id ?? "user_001",
+      role: res.role,
+      email: res.user?.email ?? payload.email,
+      name: res.user?.name || profile.name || payload.email.split("@")[0],
     };
     setUser(nextUser);
     return nextUser;
   }, []);
 
   const register = useCallback(async (payload: RegisterPayload): Promise<void> => {
-    await authService.register(payload);
-    profileStore.save({ name: payload.name, email: payload.email });
+    const res = await authService.register(payload);
+    profileStore.save({ name: res.name || payload.name, email: res.email || payload.email });
   }, []);
 
   const logout = useCallback(() => {

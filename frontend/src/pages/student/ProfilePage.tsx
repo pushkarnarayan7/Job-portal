@@ -72,7 +72,7 @@ export function ProfilePage() {
       toast.error("Resume must be under 5 MB");
       return;
     }
-    // Note: only the file name is stored — the backend has no upload endpoint yet.
+    // Note: only the file name is stored - the backend has no upload endpoint yet.
     const saved = profileStore.save({ resumeFileName: file.name });
     setProfile(saved);
     toast.success("Resume attached to your profile");

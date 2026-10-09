@@ -148,7 +148,7 @@ export function LandingPage() {
 
           {!loadingJobs && featured.length === 0 && (
             <p className="mt-8 text-center text-sm text-slate-500">
-              No jobs posted yet — check back soon or{" "}
+              No jobs posted yet - check back soon or{" "}
               <Link to="/register" className="font-medium text-primary-600">
                 become a recruiter
               </Link>{" "}

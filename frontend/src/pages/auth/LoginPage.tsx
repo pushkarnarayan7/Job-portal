@@ -82,11 +82,12 @@ export function LoginPage() {
         </Button>
       </form>
 
-      <div className="mt-6 rounded-lg bg-slate-50 p-3 text-xs text-slate-500">
-        <p className="font-medium text-slate-600">Demo accounts</p>
-        <p className="mt-1">
-          Recruiter: <span className="font-mono">recruiter@jobportal.com</span> — any
-          password (6+ chars). Any other email signs in as a student.
+      <div className="mt-6 rounded-lg bg-slate-50 p-3 text-xs text-slate-500 text-center">
+        <p>
+          Need a recruiter or job seeker account?{" "}
+          <Link to="/register" className="font-medium text-primary-600 hover:text-primary-700">
+            Create one here
+          </Link>
         </p>
       </div>
     </AuthLayout>

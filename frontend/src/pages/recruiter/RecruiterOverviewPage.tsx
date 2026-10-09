@@ -32,8 +32,8 @@ export function RecruiterOverviewPage() {
   const totalOpenings = jobs.reduce((sum, j) => sum + j.openings, 0);
 
   const stats = [
-    { icon: Briefcase, label: "Active Jobs", value: loading ? "—" : String(total) },
-    { icon: Users, label: "Total Openings", value: loading ? "—" : String(totalOpenings) },
+    { icon: Briefcase, label: "Active Jobs", value: loading ? "-" : String(total) },
+    { icon: Users, label: "Total Openings", value: loading ? "-" : String(totalOpenings) },
     // The backend has no applicants or views tracking yet; shown as placeholders.
     { icon: TrendingUp, label: "Applicants", value: "N/A" },
     { icon: Eye, label: "Job Views", value: "N/A" },

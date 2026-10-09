@@ -48,6 +48,7 @@ export interface RegisterPayload {
   name: string;
   email: string;
   password: string;
+  role?: UserRole;
 }
 
 /** Client-side record of a job application (no backend endpoint yet). */

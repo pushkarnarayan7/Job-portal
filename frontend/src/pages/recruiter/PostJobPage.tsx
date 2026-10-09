@@ -21,7 +21,7 @@ export function PostJobPage() {
     <div className="max-w-2xl">
       <h1 className="text-2xl font-bold text-slate-900">Post a Job</h1>
       <p className="mt-1 text-slate-500">
-        Fill in the role details — your posting goes live immediately.
+        Fill in the role details - your posting goes live immediately.
       </p>
       <div className="mt-6 rounded-xl border border-slate-200 bg-white p-6 shadow-card">
         <JobForm submitLabel="Publish job" onSubmit={handleSubmit} />
