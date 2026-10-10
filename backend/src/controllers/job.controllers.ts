@@ -68,7 +68,19 @@ export const getJobById = async (req: Request, res: Response): Promise<void> => 
 };
 
 export const createJob = async (req: Request, res: Response): Promise<void> => {
-  const { title, company, openings, eligibility } = req.body;
+  const {
+    title,
+    company,
+    openings,
+    eligibility,
+    description,
+    discloseSalary,
+    salaryMin,
+    salaryMax,
+    salaryCurrency,
+    salaryPeriod,
+    benefits,
+  } = req.body;
 
   if (!title || !company || !openings) {
     res
@@ -88,6 +100,13 @@ export const createJob = async (req: Request, res: Response): Promise<void> => {
       company,
       openings,
       eligibility,
+      description: description || "",
+      discloseSalary: discloseSalary !== undefined ? discloseSalary : true,
+      salaryMin: salaryMin || 0,
+      salaryMax: salaryMax || 0,
+      salaryCurrency: salaryCurrency || "USD",
+      salaryPeriod: salaryPeriod || "year",
+      benefits: benefits || [],
       createdBy: req.user.userId,
     });
 
@@ -100,12 +119,36 @@ export const createJob = async (req: Request, res: Response): Promise<void> => {
 
 export const updateJob = async (req: Request, res: Response): Promise<void> => {
   const { id } = req.params;
-  const { title, company, openings, eligibility } = req.body;
+  const {
+    title,
+    company,
+    openings,
+    eligibility,
+    description,
+    discloseSalary,
+    salaryMin,
+    salaryMax,
+    salaryCurrency,
+    salaryPeriod,
+    benefits,
+  } = req.body;
 
   try {
     const updatedJob = await Job.findByIdAndUpdate(
       id,
-      { title, company, openings, eligibility },
+      {
+        title,
+        company,
+        openings,
+        eligibility,
+        description,
+        discloseSalary,
+        salaryMin,
+        salaryMax,
+        salaryCurrency,
+        salaryPeriod,
+        benefits,
+      },
       { new: true, runValidators: true }
     );
 
