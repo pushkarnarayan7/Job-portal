@@ -13,6 +13,13 @@ export interface JobPayload {
   company: string;
   openings: number;
   eligibility?: string;
+  description?: string;
+  discloseSalary?: boolean;
+  salaryMin?: number;
+  salaryMax?: number;
+  salaryCurrency?: string;
+  salaryPeriod?: string;
+  benefits?: string[];
 }
 
 export const jobsService = {

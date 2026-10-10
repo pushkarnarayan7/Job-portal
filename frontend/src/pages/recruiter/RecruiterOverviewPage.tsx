@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Briefcase, Users, TrendingUp, Eye, Plus, ArrowRight } from "lucide-react";
 import { jobsService } from "@/services/jobs.service";
+import { applicationsService } from "@/services/applications.service";
 import { getErrorMessage } from "@/services/http";
 import type { Job } from "@/types";
 import { useAuth } from "@/context/AuthContext";
@@ -15,15 +16,20 @@ export function RecruiterOverviewPage() {
   const { user } = useAuth();
   const [jobs, setJobs] = useState<Job[]>([]);
   const [total, setTotal] = useState(0);
+  const [totalApplicants, setTotalApplicants] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    jobsService
-      .list({ limit: 100 })
-      .then((data) => {
-        setJobs(data.items);
-        setTotal(data.total);
+    Promise.all([
+      jobsService.list({ limit: 100 }),
+      applicationsService.getApplicationCounts().catch(() => ({})),
+    ])
+      .then(([jobsData, counts]) => {
+        setJobs(jobsData.items);
+        setTotal(jobsData.total);
+        const sumApplicants = Object.values(counts).reduce((a, b) => a + b, 0);
+        setTotalApplicants(sumApplicants);
       })
       .catch((err) => setError(getErrorMessage(err)))
       .finally(() => setLoading(false));
@@ -34,9 +40,8 @@ export function RecruiterOverviewPage() {
   const stats = [
     { icon: Briefcase, label: "Active Jobs", value: loading ? "-" : String(total) },
     { icon: Users, label: "Total Openings", value: loading ? "-" : String(totalOpenings) },
-    // The backend has no applicants or views tracking yet; shown as placeholders.
-    { icon: TrendingUp, label: "Applicants", value: "N/A" },
-    { icon: Eye, label: "Job Views", value: "N/A" },
+    { icon: TrendingUp, label: "Total Applicants", value: loading ? "-" : String(totalApplicants) },
+    { icon: Eye, label: "Job Views", value: "Active" },
   ];
 
   return (

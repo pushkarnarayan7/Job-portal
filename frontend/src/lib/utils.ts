@@ -37,3 +37,44 @@ export function getInitials(name: string): string {
     .join("")
     .toUpperCase();
 }
+
+export function formatSalary(
+  discloseSalary?: boolean,
+  min?: number,
+  max?: number,
+  currency: string = "USD",
+  period: string = "year"
+): string {
+  if (discloseSalary === false) {
+    return "Undisclosed";
+  }
+  if (!min && !max) {
+    return "Not disclosed";
+  }
+
+  const symbolMap: Record<string, string> = {
+    USD: "$",
+    INR: "₹",
+    EUR: "€",
+    GBP: "£",
+    CAD: "CA$",
+    AUD: "A$",
+  };
+  const sym = symbolMap[currency] || `${currency} `;
+  const freq = period === "year" ? "/ yr" : period === "month" ? "/ mo" : "/ hr";
+
+  const formatNum = (num: number) => {
+    return new Intl.NumberFormat("en-US").format(num);
+  };
+
+  if (min && max && min !== max) {
+    return `${sym}${formatNum(min)} - ${sym}${formatNum(max)} ${freq}`;
+  } else if (min) {
+    return `${sym}${formatNum(min)}+ ${freq}`;
+  } else if (max) {
+    return `Up to ${sym}${formatNum(max)} ${freq}`;
+  }
+
+  return "Undisclosed";
+}
+

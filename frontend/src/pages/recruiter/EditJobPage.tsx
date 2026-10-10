@@ -52,6 +52,13 @@ export function EditJobPage() {
             title: job.title,
             company: job.company,
             openings: job.openings,
+            description: job.description ?? "",
+            discloseSalary: job.discloseSalary ?? true,
+            salaryMin: job.salaryMin ?? 0,
+            salaryMax: job.salaryMax ?? 0,
+            salaryCurrency: job.salaryCurrency ?? "USD",
+            salaryPeriod: job.salaryPeriod ?? "year",
+            benefits: job.benefits ?? [],
             eligibility: job.eligibility ?? "",
           }}
           onSubmit={handleSubmit}

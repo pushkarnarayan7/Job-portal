@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Briefcase, Pencil, Plus, Trash2 } from "lucide-react";
+import { Briefcase, Pencil, Plus, Trash2, Users } from "lucide-react";
 import toast from "react-hot-toast";
 import { jobsService } from "@/services/jobs.service";
+import { applicationsService } from "@/services/applications.service";
 import { getErrorMessage } from "@/services/http";
 import type { Job } from "@/types";
 import { Button } from "@/components/ui/Button";
@@ -14,6 +15,7 @@ import { formatDate } from "@/lib/utils";
 
 export function ManageJobsPage() {
   const [jobs, setJobs] = useState<Job[]>([]);
+  const [countsMap, setCountsMap] = useState<Record<string, number>>({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [jobToDelete, setJobToDelete] = useState<Job | null>(null);
@@ -22,9 +24,14 @@ export function ManageJobsPage() {
   const fetchJobs = useCallback(() => {
     setLoading(true);
     setError(null);
-    jobsService
-      .list({ limit: 100 })
-      .then((data) => setJobs(data.items))
+    Promise.all([
+      jobsService.list({ limit: 100 }),
+      applicationsService.getApplicationCounts().catch(() => ({})),
+    ])
+      .then(([jobsData, counts]) => {
+        setJobs(jobsData.items);
+        setCountsMap(counts);
+      })
       .catch((err) => setError(getErrorMessage(err)))
       .finally(() => setLoading(false));
   }, []);
@@ -90,49 +97,69 @@ export function ManageJobsPage() {
                 <tr>
                   <th className="px-5 py-3 font-medium">Role</th>
                   <th className="hidden px-5 py-3 font-medium md:table-cell">Openings</th>
+                  <th className="hidden px-5 py-3 font-medium sm:table-cell">Applicants</th>
                   <th className="hidden px-5 py-3 font-medium lg:table-cell">Posted</th>
                   <th className="px-5 py-3 text-right font-medium">Actions</th>
                 </tr>
               </thead>
               <tbody>
-                {jobs.map((job) => (
-                  <tr key={job._id} className="border-b border-slate-100 last:border-0">
-                    <td className="px-5 py-4">
-                      <Link
-                        to={`/jobs/${job._id}`}
-                        className="font-medium text-slate-900 hover:text-primary-600"
-                      >
-                        {job.title}
-                      </Link>
-                      <p className="text-xs text-slate-500">{job.company}</p>
-                    </td>
-                    <td className="hidden px-5 py-4 text-slate-600 md:table-cell">
-                      {job.openings}
-                    </td>
-                    <td className="hidden px-5 py-4 text-slate-600 lg:table-cell">
-                      {formatDate(job.createdAt)}
-                    </td>
-                    <td className="px-5 py-4">
-                      <div className="flex justify-end gap-1">
+                {jobs.map((job) => {
+                  const applicantCount = countsMap[job._id] || 0;
+                  return (
+                    <tr key={job._id} className="border-b border-slate-100 last:border-0">
+                      <td className="px-5 py-4">
                         <Link
-                          to={`/recruiter/jobs/${job._id}/edit`}
-                          aria-label={`Edit ${job.title}`}
-                          className="rounded-lg p-2 text-slate-400 transition-colors hover:bg-slate-100 hover:text-primary-600"
+                          to={`/jobs/${job._id}`}
+                          className="font-medium text-slate-900 hover:text-primary-600"
                         >
-                          <Pencil className="h-4 w-4" />
+                          {job.title}
                         </Link>
-                        <button
-                          type="button"
-                          onClick={() => setJobToDelete(job)}
-                          aria-label={`Delete ${job.title}`}
-                          className="rounded-lg p-2 text-slate-400 transition-colors hover:bg-red-50 hover:text-red-600"
+                        <p className="text-xs text-slate-500">{job.company}</p>
+                      </td>
+                      <td className="hidden px-5 py-4 text-slate-600 md:table-cell">
+                        {job.openings}
+                      </td>
+                      <td className="hidden px-5 py-4 sm:table-cell">
+                        <Link
+                          to={`/recruiter/applicants?jobId=${job._id}`}
+                          className="inline-flex items-center gap-1.5 rounded-full bg-primary-50 px-2.5 py-1 text-xs font-semibold text-primary-700 hover:bg-primary-100"
                         >
-                          <Trash2 className="h-4 w-4" />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
+                          <Users className="h-3.5 w-3.5" />
+                          {applicantCount} applicant{applicantCount === 1 ? "" : "s"}
+                        </Link>
+                      </td>
+                      <td className="hidden px-5 py-4 text-slate-600 lg:table-cell">
+                        {formatDate(job.createdAt)}
+                      </td>
+                      <td className="px-5 py-4">
+                        <div className="flex justify-end items-center gap-2">
+                          <Link
+                            to={`/recruiter/applicants?jobId=${job._id}`}
+                            className="inline-flex items-center gap-1 text-xs font-medium text-primary-600 hover:text-primary-700 bg-slate-50 hover:bg-primary-50 px-2.5 py-1.5 rounded-lg transition-colors"
+                          >
+                            <Users className="h-3.5 w-3.5" />
+                            Applicants
+                          </Link>
+                          <Link
+                            to={`/recruiter/jobs/${job._id}/edit`}
+                            aria-label={`Edit ${job.title}`}
+                            className="rounded-lg p-2 text-slate-400 transition-colors hover:bg-slate-100 hover:text-primary-600"
+                          >
+                            <Pencil className="h-4 w-4" />
+                          </Link>
+                          <button
+                            type="button"
+                            onClick={() => setJobToDelete(job)}
+                            aria-label={`Delete ${job.title}`}
+                            className="rounded-lg p-2 text-slate-400 transition-colors hover:bg-red-50 hover:text-red-600"
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
@@ -161,3 +188,4 @@ export function ManageJobsPage() {
     </div>
   );
 }
+

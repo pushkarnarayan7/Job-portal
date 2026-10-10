@@ -6,6 +6,13 @@ export interface Job {
   company: string;
   openings: number;
   eligibility?: string;
+  description?: string;
+  discloseSalary?: boolean;
+  salaryMin?: number;
+  salaryMax?: number;
+  salaryCurrency?: string;
+  salaryPeriod?: string;
+  benefits?: string[];
   createdBy: string;
   createdAt: string;
   updatedAt: string;
@@ -57,7 +64,41 @@ export interface LocalApplication {
   jobTitle: string;
   company: string;
   appliedAt: string;
-  status: "applied" | "under-review" | "shortlisted";
+  status: "applied" | "under-review" | "shortlisted" | "rejected";
+  applicantName: string;
+  applicantEmail: string;
+  phone: string;
+  resumeFileName: string | null;
+  coverLetter: string;
+  skills: string[];
+}
+
+/** Application record returned from the backend API. */
+export interface BackendApplication {
+  _id: string;
+  jobId: string;
+  applicantId: string;
+  applicantName: string;
+  applicantEmail: string;
+  phone: string;
+  resumeFileName: string | null;
+  coverLetter: string;
+  skills: string[];
+  status: "applied" | "under-review" | "shortlisted" | "rejected";
+  appliedAt: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+/** Applicants response for a specific job (recruiter view). */
+export interface JobApplicantsResponse {
+  job: {
+    _id: string;
+    title: string;
+    company: string;
+  };
+  applicants: BackendApplication[];
+  total: number;
 }
 
 /** Client-side notification record (no backend endpoint yet). */
@@ -68,3 +109,4 @@ export interface LocalNotification {
   createdAt: string;
   read: boolean;
 }
+

@@ -62,6 +62,9 @@ export const applicationStore = {
       write(KEYS.applications, all);
     }
   },
+  get(jobId: string): LocalApplication | undefined {
+    return this.getAll().find((a) => a.jobId === jobId);
+  },
 };
 
 export const notificationStore = {

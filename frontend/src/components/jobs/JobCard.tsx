@@ -1,12 +1,12 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Bookmark, Building2, Users } from "lucide-react";
+import { Bookmark, Building2, Users, DollarSign, EyeOff } from "lucide-react";
 import toast from "react-hot-toast";
 import { useState } from "react";
 import type { Job } from "@/types";
 import { Badge } from "@/components/ui/Badge";
 import { bookmarkStore } from "@/lib/storage";
-import { cn, timeAgo, getInitials } from "@/lib/utils";
+import { cn, timeAgo, getInitials, formatSalary } from "@/lib/utils";
 
 interface JobCardProps {
   job: Job;
@@ -20,6 +20,14 @@ export function JobCard({ job }: JobCardProps) {
     setBookmarked(nowSaved);
     toast.success(nowSaved ? "Job saved" : "Removed from saved jobs");
   };
+
+  const salaryText = formatSalary(
+    job.discloseSalary,
+    job.salaryMin,
+    job.salaryMax,
+    job.salaryCurrency,
+    job.salaryPeriod
+  );
 
   return (
     <motion.article
@@ -60,17 +68,31 @@ export function JobCard({ job }: JobCardProps) {
         </button>
       </div>
 
-      {job.eligibility && (
+      {job.description ? (
+        <p className="mt-3 line-clamp-2 text-sm text-slate-600">{job.description}</p>
+      ) : job.eligibility ? (
         <p className="mt-3 line-clamp-2 text-sm text-slate-600">{job.eligibility}</p>
-      )}
+      ) : null}
 
       <div className="mt-4 flex flex-wrap items-center gap-2">
         <Badge tone="emerald">
           <Users className="mr-1 h-3 w-3" />
           {job.openings} opening{job.openings > 1 ? "s" : ""}
         </Badge>
+        {job.discloseSalary === false ? (
+          <Badge tone="slate">
+            <EyeOff className="mr-1 h-3 w-3" />
+            Salary Undisclosed
+          </Badge>
+        ) : (job.salaryMin || job.salaryMax) ? (
+          <Badge tone="blue">
+            <DollarSign className="mr-1 h-3 w-3" />
+            {salaryText}
+          </Badge>
+        ) : null}
         <Badge tone="slate">{timeAgo(job.createdAt)}</Badge>
       </div>
     </motion.article>
   );
 }
+
